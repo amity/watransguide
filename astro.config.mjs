@@ -6,7 +6,7 @@ import { generateRedirects } from "./redirect-generator.ts";
 
 // https://astro.build/config
 export default defineConfig({
-  site: 'https://amity.github.io/watransguide/',
+  site: 'https://watransguide.org',
   redirects: generateRedirects(),
   integrations: [
     starlight({
