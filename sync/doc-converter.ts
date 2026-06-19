@@ -242,7 +242,12 @@ function removeDuplicateTitle(markdown: string, fileName: string): string {
   const lines = markdown.split('\n');
   if (lines.length === 0) return markdown;
 
-  const firstLine = lines[0].trim();
+  let firstLine = lines[0].trim();
+  // Document tabs are my bane. ignore them if they have default name
+  if(firstLine.toLowerCase() === "tab 1"){
+    lines.shift();
+    firstLine = lines[0].trim();
+  }
   const cleanTitle = stripNumberPrefix(fileName);
   
   // Check if first line is a heading that matches the title (with or without number prefix)
