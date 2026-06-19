@@ -236,49 +236,38 @@ function replaceDriveLinks(markdown: string, fileIdToPath: Map<string, string>):
 }
 
 /**
+ * Strips number prefix from file/folder names
+ * e.g., "01-Setup" -> "Setup", "02-Advanced" -> "Advanced"
+ */
+function stripNumberPrefixAndFormatting(name: string): string {
+  return name.replace(/^\d+-/, '').replace(/^[*#\s]+|[*#\s]+$/g, '');
+}
+
+function isDuplicateOrEmpty(line: string, title: string) {
+  const trimmed = stripNumberPrefixAndFormatting(line).trim();
+  return trimmed.length == 0 || 
+    trimmed.toLowerCase() == title.toLowerCase() || 
+    trimmed.toLowerCase() == 'tab 1';
+}
+
+/**
  * Removes duplicate title from first line if it matches the document title
  */
 function removeDuplicateTitle(markdown: string, fileName: string): string {
   const lines = markdown.split('\n');
   if (lines.length === 0) return markdown;
 
-  let firstLine = lines[0].trim();
-  // Document tabs are my bane. ignore them if they have default name
-  if(firstLine.toLowerCase() === "tab 1"){
+  const cleanTitle = stripNumberPrefixAndFormatting(fileName);
+
+  // If line matches title, or is "tab 1" or empty, remove it. Continue until false. 
+  if(isDuplicateOrEmpty(lines[0], cleanTitle)){
     lines.shift();
-    firstLine = lines[0].trim();
-  }
-  const cleanTitle = stripNumberPrefix(fileName);
-  
-  // Check if first line is a heading that matches the title (with or without number prefix)
-  const headingMatch = firstLine.match(/^#+\s+(.+)$/);
-  if (headingMatch) {
-    const headingText = headingMatch[1].trim();
-    const cleanHeading = stripNumberPrefix(headingText);
-    
-    // If the heading (without prefix) matches the title (without prefix), remove it
-    if (cleanHeading.toLowerCase() === cleanTitle.toLowerCase()) {
-      lines.shift(); // Remove first line
-      return lines.join('\n').trim();
+    while(isDuplicateOrEmpty(lines[0], cleanTitle)){
+      lines.shift();
     }
-  }
-  
-  // Also check if first line is just plain text that matches the title
-  const cleanFirstLine = stripNumberPrefix(firstLine);
-  if (cleanFirstLine.toLowerCase() === cleanTitle.toLowerCase()) {
-    lines.shift();
     return lines.join('\n').trim();
   }
-
   return markdown;
-}
-
-/**
- * Strips number prefix from file/folder names
- * e.g., "01-Setup" -> "Setup", "02-Advanced" -> "Advanced"
- */
-function stripNumberPrefix(name: string): string {
-  return name.replace(/^\d+-/, '');
 }
 
 /**
@@ -292,7 +281,7 @@ function generateFrontmatter(options: {
 }): string {
   const lines = ['---'];
   // Strip number prefix from title for display
-  const cleanTitle = stripNumberPrefix(options.title);
+  const cleanTitle = stripNumberPrefixAndFormatting(options.title);
   lines.push(`title: "${escapeFrontmatterString(cleanTitle)}"`);
   
   if (options.author) {
