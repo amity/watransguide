@@ -22,7 +22,7 @@ jobs:
       - name: Commit checkpoint
         run: |
           git config --global user.name 'GitHub Action'
-          git config --global user.email 'contact@sustainablecapitolhill.org'
+          git config --global user.email 'sophie.a.debs@gmail.com'
           git add .
           git commit -m "Checkpoint at $CHECKPOINT"
           git push
