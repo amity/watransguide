@@ -1,3 +1,4 @@
+import { randomInt } from 'crypto';
 import * as fs from 'fs';
 import * as path from 'path';
 
@@ -9,11 +10,16 @@ interface FolderMetadata {
   };
 }
 
+type Badge = string | { text: string; variant: 'note' | 'tip' |'danger' |'caution' | 'success' };
+
+const HIGHLIGHT_BADGE: Badge =  { text: "*", variant: 'success'};
+const HARDCODE_HIGHLIGHTS = ['other-benefits-and-resources', 'food-stamps-wic', 'housing', 'jobs', 'apple-health-insurance', 'medical', 'medical-care'];
+
 // Type matching Starlight's sidebar configuration
 // Based on @astrojs/starlight/schemas/sidebar SidebarItem type
 type SidebarItem = 
-  | { label: string; link: string }  // Link item
-  | { label: string; items: SidebarItem[]; collapsed?: boolean };  // Group item
+  | { label: string; link: string; badge?: Badge}  // Link item
+  | { label: string; items: SidebarItem[]; collapsed?: boolean;  badge?: Badge};  // Group item
 
 /**
  * Loads folder metadata from sync process
@@ -85,6 +91,8 @@ function buildSidebarForDirectory(
 ): SidebarItem[] {
   const entries = fs.readdirSync(dirPath, { withFileTypes: true });
   const items: SidebarItem[] = [];
+  // Add top-level home item
+  if (relativePath === ''){items.push({label: "Home", link: "/home"})};
 
   // Separate folders and files
   const folders = entries.filter(e => e.isDirectory()).map(e => e.name).sort();
@@ -104,6 +112,7 @@ function buildSidebarForDirectory(
       // Folder has children - create collapsible group
       items.push({
         label,
+        badge: HARDCODE_HIGHLIGHTS.includes(folder) ? HIGHLIGHT_BADGE : undefined,
         collapsed: true,
         items: childItems,
       });
@@ -124,8 +133,9 @@ function buildSidebarForDirectory(
     const title = getTitleFromFrontmatter(filePath);
     const label = title || stripNumberPrefix(fileName);
 
-    const item = {
+    const item: SidebarItem = {
       label,
+      badge: HARDCODE_HIGHLIGHTS.includes(fileName) ? HIGHLIGHT_BADGE : undefined,
       link: fileRelativePath,
     };
     // If item matches folder name, show first (parent files). This only works 1 level down but fine for us.

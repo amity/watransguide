@@ -7,7 +7,7 @@ import matter from 'gray-matter';
  * Format: /{driveFileId} -> /path/to/page
  */
 export function generateRedirects(): Record<string, string> {
-  const redirects: Record<string, string> = {'/': '/wa-trans-relocation-guide-home'};
+  const redirects: Record<string, string> = {'/': '/home'};
   const docsDir = path.join(process.cwd(), 'src', 'content', 'docs');
 
   if (!fs.existsSync(docsDir)) {

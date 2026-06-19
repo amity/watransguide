@@ -216,7 +216,8 @@ function replaceDriveLinks(markdown: string, fileIdToPath: Map<string, string>):
       // Check if this file ID is in our wiki
       const wikiPath = fileIdToPath.get(fileId);
       
-      if (wikiPath) {
+      // Checklists are weird, needs manual tweaking so we want to link them in GDocs not wiki.
+      if (wikiPath && !linkText.includes("Checklist")) {
         // Convert to relative wiki link (remove .md extension for Astro/Starlight)
         const relativePath = wikiPath.replace(/\.md$/, '');
         console.log(`    🔗 Replacing Drive link to "${linkText}" with /${relativePath}`);
