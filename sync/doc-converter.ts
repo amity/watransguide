@@ -240,7 +240,7 @@ function replaceDriveLinks(markdown: string, fileIdToPath: Map<string, string>):
  * e.g., "01-Setup" -> "Setup", "02-Advanced" -> "Advanced"
  */
 function stripNumberPrefixAndFormatting(name: string): string {
-  return name.replace(/^\d+-/, '').replace(/^[*#\s]+|[*#\s]+$/g, '');
+  return name.replace(/^(\d+-)?[*#\s]*|[*#\s]+$/g, '').replace(/\\\+/, '+');
 }
 
 function isDuplicateOrEmpty(line: string, title: string) {
