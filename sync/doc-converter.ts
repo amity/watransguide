@@ -238,6 +238,7 @@ function replaceDriveLinks(markdown: string, fileIdToPath: Map<string, string>):
 /**
  * Strips number prefix from file/folder names
  * e.g., "01-Setup" -> "Setup", "02-Advanced" -> "Advanced"
+ * Also strips Markdown formatting and + escapes, e.g. "# **One \+ Two**" -> "One + Two"
  */
 function stripNumberPrefixAndFormatting(name: string): string {
   return name.replace(/^(\d+-)?[*#\s]*|[*#\s]+$/g, '').replace(/\\\+/, '+');
