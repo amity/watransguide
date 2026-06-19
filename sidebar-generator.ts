@@ -123,11 +123,21 @@ function buildSidebarForDirectory(
     // Try to get title from frontmatter, fallback to filename with number prefix stripped
     const title = getTitleFromFrontmatter(filePath);
     const label = title || stripNumberPrefix(fileName);
-    
-    items.push({
+
+    const item = {
       label,
       link: fileRelativePath,
-    });
+    };
+    // If item matches folder name, show first (parent files). This only works 1 level down but fine for us.
+    if(fileName === relativePath){
+      items.unshift(item)
+    } else if (fileName.includes('omelessness') || fileName.includes('hecklist')) { 
+      // Manually setting a few second items as a high priority
+      items.splice(1, 0, item)
+    } else {
+    items.push(item);
+  }
+
   }
 
   return items;

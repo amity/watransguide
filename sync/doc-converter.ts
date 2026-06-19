@@ -193,6 +193,7 @@ function getImageExtension(url: string): string {
 function cleanupMarkdown(markdown: string): string {
   return markdown
     .replace(/\n{3,}/g, '\n\n')  // Collapse multiple newlines
+    .replace(/ {#.*}/g, '')
     .trim();
 }
 

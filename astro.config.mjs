@@ -6,16 +6,14 @@ import { generateRedirects } from "./redirect-generator.ts";
 
 // https://astro.build/config
 export default defineConfig({
+  site: 'https://watransguide.org',
   redirects: generateRedirects(),
   integrations: [
     starlight({
       favicon: "favicon.jpg",
-      title: "Sustainable Capitol Hill Wiki",
+      title: "WA Trans Resource and Relocation Guide",
       titleDelimiter: "|",
-      logo: {
-        light: "./src/assets/blackbird.png",
-        dark: "./src/assets/whitebird.png",
-      },
+      logo: {src: "./src/assets/transcadia.png", alt: "Cascadia Douglas Fir flag with trans stripes."},
       social: [],
       sidebar: generateSidebar(),
       components: {
