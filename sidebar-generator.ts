@@ -18,8 +18,8 @@ const HARDCODE_HIGHLIGHTS = ['other-benefits-and-resources', 'food-stamps-wic', 
 // Type matching Starlight's sidebar configuration
 // Based on @astrojs/starlight/schemas/sidebar SidebarItem type
 type SidebarItem = 
-  | { label: string; link: string; badge?: Badge}  // Link item
-  | { label: string; items: SidebarItem[]; collapsed?: boolean;  badge?: Badge};  // Group item
+  | { label: string; link: string; badge?: Badge; attrs?: {[key:string]: string}}  // Link item
+  | { label: string; items: SidebarItem[]; collapsed?: boolean;  badge?: Badge; attrs?: {[key:string]: string}};  // Group item
 
 /**
  * Loads folder metadata from sync process
@@ -92,7 +92,7 @@ function buildSidebarForDirectory(
   const entries = fs.readdirSync(dirPath, { withFileTypes: true });
   const items: SidebarItem[] = [];
   // Add top-level home item
-  if (relativePath === ''){items.push({label: "Home", link: "/home"})};
+  if (relativePath === ''){items.push({label: "Home", link: "/", attrs: {style: 'text-decoration: underline; text-align: center;'}})};
 
   // Separate folders and files
   const folders = entries.filter(e => e.isDirectory()).map(e => e.name).sort();
