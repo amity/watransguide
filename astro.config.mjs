@@ -16,22 +16,20 @@ export default defineConfig({
           tag: 'meta',
           attrs: {
             property: 'og:image',
-            content: './src/assets/transcadia.png',
+            content: './public/transcadia.png',
           },
-          content: './src/assets/transcadia.png',
         },
         {
           tag: 'meta',
           attrs: {
             property: 'image',
-            content: './src/assets/transcadia.png',
+            content: './public/transcadia.png',
           },
-          content: './src/assets/transcadia.png',
         },
       ],
       title: "WA Trans Resource and Relocation Guide",
       titleDelimiter: "|",
-      logo: {src: "./src/assets/transcadia.png", alt: "Cascadia Douglas Fir flag with trans stripes."},
+      logo: {src: "./public/transcadia.png", alt: "Cascadia Douglas Fir flag with trans stripes."},
       social: [],
       sidebar: generateSidebar(),
       components: {
