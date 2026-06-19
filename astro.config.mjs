@@ -10,7 +10,7 @@ export default defineConfig({
   redirects: generateRedirects(),
   integrations: [
     starlight({
-      favicon: "favicon.jpg",
+      favicon: "favicon.ico",
       title: "WA Trans Resource and Relocation Guide",
       titleDelimiter: "|",
       logo: {src: "./src/assets/transcadia.png", alt: "Cascadia Douglas Fir flag with trans stripes."},
