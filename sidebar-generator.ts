@@ -13,7 +13,7 @@ interface FolderMetadata {
 type Badge = string | { text: string; variant: 'note' | 'tip' |'danger' |'caution' | 'success' };
 
 const HIGHLIGHT_BADGE: Badge =  { text: "*", variant: 'success'};
-const HARDCODE_HIGHLIGHTS = ['other-benefits-and-resources', 'food-stamps-wic', 'housing', 'jobs', 'apple-health-insurance', 'medical', 'medical-care'];
+const HARDCODE_HIGHLIGHTS = ['other-benefits-and-resources', 'food-stamps-wic', 'housing', 'benefits-assistance', 'jobs', 'apple-health-insurance', 'medical', 'medical-care'];
 
 // Type matching Starlight's sidebar configuration
 // Based on @astrojs/starlight/schemas/sidebar SidebarItem type
